@@ -1,0 +1,85 @@
+{% extends Extend %}
+{% load static %}
+
+{% block titulo %}Foros{% endblock %}
+
+{% block contenido %}
+
+    <div>
+        <form action="{% url 'foros' %}" method="get">
+            <input type="search" name="search"><button>Buscar</button>
+        </form>
+    </div><br>
+
+    {% if Busqueda != '' %}
+    <div>
+        <label>Has buscado "{{ Busqueda }}". </label>
+        <a href="{% url 'foros' %}">eliminar busqueda</a>
+    </div><br>
+    {% endif %}
+
+
+    <div id="foros">
+        <!--Lista los foros-->
+        <table border="0" >
+                
+            {% for i in Foros %}
+            <tr>
+                <td width="60px">
+                    {% if i.archivo.url != '' %}
+                            <img style="width: 60px;" src="{{ i.archivo.url }}" alt="">
+                    {% endif %}
+                </td>
+
+                <td>
+                    <a href="{% url 'publicacion' i.nom_foro %}"><h3>{{ i.nom_foro }}</h3></a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+        <div>
+
+            <!--Si existen paginas crea las pags-->
+            {% if Foros.has_other_pages %}
+
+
+                <!--Si existe una pagina anterior crea un href a esa pag-->
+                {% if Foros.has_previous %}
+                    <label><a href="?page={{ Foros.previous_page_number }}{{ Hypervinculo }}">◀️</a></label>
+                {% else %}
+                    <label>◀️</label>
+                {% endif %}
+                
+
+                <!--lista las pags-->
+                {% for i in Paginas.page_range %}
+                    {% if i < Max and i > Min %}
+                        {% if i == Foros.number %}
+                            <label><a style="color: red;" href="?page={{ i }}{{ Hypervinculo }}">{{ i }}</a></label>
+                        {% else %}
+                            <label><a href="?page={{ i }}{{ Hypervinculo }}">{{ i }}</a></label>
+                        {% endif %}
+                    {% endif %}
+                    {{ Foros.page }}
+                {% endfor %}
+
+                
+                <!--Si existe una pagina sig crea un href a esa pag-->
+                {% if Foros.has_next %}
+                    <label><a href="?page={{ Foros.next_page_number }}{{ Hypervinculo }}">▶️</a></label>
+                {% else %}
+                    <label>▶️</label>
+                {% endif %}<br>
+
+                <!---<page 1 of 7>
+                <label>{{ TextoPag }}</label>
+                -->
+            {% endif %}
+        </div>
+
+    </div>
+    
+
+{% endblock %}

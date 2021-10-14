@@ -1,0 +1,88 @@
+{% extends 'app/home.html' %}
+{% load static %}
+
+
+    {% block header %}
+
+        <!----Menu desplegable-->
+        <style type="text/css">
+            .nav * {
+                margin:0px;
+                padding:0px;
+            }
+			
+			#header {
+				margin:-25px;
+				width:250px;
+				font-family:Arial, Helvetica, sans-serif;
+                float:right;
+			}
+			
+			ul, ol {
+				list-style:none;
+			}
+			
+			.nav > li {
+				float:left;
+			}
+			
+			.nav li a {
+				background-color:#000;
+				color:#fff;
+				text-decoration:none;
+				padding:10px 12px;
+				display:block;
+			}
+			
+			.nav li a:hover {
+				background-color:#434343;
+			}
+			
+			.nav li ul {
+				display:none;
+				position:absolute;
+				min-width:140px;
+			}
+			
+			.nav li:hover > ul {
+				display:block;
+			}
+			
+			.nav li ul li {
+				position:relative;
+			}
+			
+			.nav li ul li ul {
+				right:-140px;
+				top:0px;
+			}
+			
+		</style>
+
+
+        <div id="header"  style="float: right;" >
+            <ul class="nav">
+                <li><a href="{% url 'perfil' %}?profile={{ Profile.nom_usuario }}"><img src="{{ Profile.foto_perfil.url }}" title="Perfil" width="30"></a></li>
+                <li><a><img width="30" src="{% static 'svg/lista.svg' %}" title="Lista"></a>
+                    <ul>
+                        <li><a href="{% url 'foros' %}"><img width="30" src="{% static 'svg/subir_tutorial.svg' %}" title="Tutoriales">Tutoriales</a></li>
+                        <li><a href="{% url 'foros' %}"><img width="30" src="{% static 'svg/buscar_foros.svg' %}" title="Foros">Foros</a></li>
+                        <li><a href="{% url 'agregar_foro' %}"><img width="30" src="{% static 'svg/subir_consulta.svg' %}" title="Agregar Consulta">Agregar consulta</a></li>
+                            <ul>
+                                <li><a href="">Submenu1</a></li>
+                                <li><a href="">Submenu2</a></li>
+                                <li><a href="">Submenu3</a></li>
+                                <li><a href="">Submenu4</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'login' %}"><img width="30" src="{% static 'svg/logout.svg' %}" title="Cerrar Sesion"></a></li>
+            </ul>
+        </div>
+    
+
+    {% endblock %}
+
+    {% block contenido %}
+    {% endblock %}

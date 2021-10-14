@@ -1,0 +1,26 @@
+input.sharingan{
+    width: 30px;
+    height: 30px;
+    background-position:3px 3px;
+    background-size:20px 20px;
+    background-repeat:no-repeat;
+    background-image: url("/static/svg/sharingan/ocultar.svg");
+    transition: all 0ms ease;
+}
+
+@keyframes sharingan {
+    0% { background-image: url("/static/svg/sharingan/sharinganp1.svg"); }
+    50% { background-image: url("/static/svg/sharingan/sharinganp2.svg"); }
+    100% { background-image: url("/static/svg/sharingan/sharinganp3.svg"); }
+}
+
+input.sharingan:active {
+    transition: 1s ease;
+    animation-delay: 1s;
+    animation-name: sharingan;
+    animation-duration: 150ms;
+    animation-iteration-count: 5;
+    background-image: url("/static/svg/sharingan/sharinganp1.svg");
+    /*background-image: url("/static/svg/sharingan/kakashi.svg");*/
+    
+}

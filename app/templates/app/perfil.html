@@ -1,0 +1,119 @@
+{% extends 'app/logueado.html' %}
+
+{% block titulo %}Perfil{% endblock %}
+
+{% load static %}
+
+{% block estilos %}
+{% endblock %}
+
+{% block contenido %}
+    <style>
+
+        .contenedor{
+            width: 200px;
+            height: 200px;
+            background-position:50% 50%;
+            background-size:16px 16px;
+        }
+
+        .foto{
+            width: 200px;
+            height: 200px;
+            
+        }
+
+        .contenedor:hover{
+            background-color: rgb(53, 53, 53);
+            transition: 500ms;
+            background-position:50% 50%;
+            background-image: url("{% static 'svg/colegio/edit.svg' %}");
+            background-size:64px 64px;
+            background-repeat:no-repeat;
+
+        }
+
+        .contenedor:hover .foto{
+            transition: 500ms;
+            opacity: 0.3;
+        }
+    </style>
+
+    <div style="margin-left: 25%;">
+
+        <!--Verifica si el perfil que esa viedo es el de el mismo-->
+        <!--Agrega el boton y la animacion de editar-->
+        {% if Perfil.nom_usuario == Profile.nom_usuario %}
+            <div  class="contenedor">
+                <input type="file" name="archivo" id="editar_perfil" accept="image/png, image/gif, image/jpeg" hidden>
+                <label for="editar_perfil">
+                    <img class="foto" id="foto_perfil" src="{{ Perfil.foto_perfil.url }}">
+                </label>
+            </div>
+        {% else %}
+            <div style="width: 200px;">
+                <img width="200px" src="{{ Perfil.foto_perfil.url }}">
+            </div>
+        {% endif %}
+
+        <label>{{ Perfil.nom_usuario }}</label>
+    </div><br>
+
+
+
+    <!--Verifica si el perfil que esa viedo es el de el mismo-->
+    <!--Agrega el boton y la animacion de editar-->
+    {% if Perfil.nom_usuario == Profile.nom_usuario %}
+        <div class="contenedor" style=" width: 30% ;border: solid blue;" >
+            <label>Descripcion:</label>
+        </div>
+    {% else %}
+        <div style=" width: 30% ; height: 200px; border: solid blue;" >
+            <label>Descripcion:</label>
+        </div>
+    {% endif %}<br>
+
+
+
+    <div style="float: left ;width: 50% ;border: solid red;">
+        <div>
+            <label>Lista de Consultas:</label>
+        </div><br>
+            {% for i in Foros %}
+            <div>
+                <a href="{% url 'publicacion' i.nom_foro %}"><label>{{ i.nom_foro }}</label></a>
+            </div>
+            {% endfor %}
+    </div>
+
+    <div style="float: left ;width: 49% ;border: solid green;" >
+        <div>
+            <label>Lista de tutoriales:</label>
+        </div>
+    </div>
+
+
+    
+    <script>
+        function init() {
+            var inputFile = document.getElementById('editar_perfil');
+            inputFile.addEventListener('change', mostrarImagen, false);
+        }
+    
+        //$("#navbar").attr("content", 'black');
+    
+        function mostrarImagen(event) {
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var img = document.getElementById('foto_perfil');
+                img.src= event.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    
+        window.addEventListener('load', init, false);
+    </script>
+
+
+{% endblock %}

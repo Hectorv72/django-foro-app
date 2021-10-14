@@ -1,0 +1,200 @@
+{% extends 'app/logueado.html' %}
+
+{% block titulo %}Comentario{% endblock %}
+
+{% load static %}
+
+{% block contenido %}
+
+    
+
+    
+
+    <style>
+
+        .error{
+            color: red;
+        }
+
+        img {
+        /*user-drag: none;*/
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-drag: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        }
+    </style>
+
+    <!--<form action="{% url 'agregar_foro' %}" method="post"  enctype="multipart/form-data">-->
+
+
+
+    <div>
+
+        <form id="uploadForm" action="{% url 'agregar_foro' %}" method="post"  enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <label>Titulo del foro: </label>{{ Formulario.nom_foro }}
+            <br><br>
+
+            <label>Descripcion: </label>{{ Formulario.descripcion }}<br><br>
+
+            <input type="file" name="archivo" id="subir_archivo" accept="image/png, image/gif, image/jpeg" hidden>
+                
+            <label id="imagen" for="subir_archivo">
+                <img style="width: 30px;" src="{% static 'svg/image.svg' %}" title ="Click aquí para subir tu foto">
+
+                    
+                <img style="width:200px" src="" id="vista_previa" >
+
+            </label><br><br>
+
+            <button id="agregar">Agregar</button>
+        </form>
+    </div>
+
+
+
+
+
+<script>
+    /*function init() {
+        var inputFile = document.getElementById('id_archivo');
+        inputFile.addEventListener('change', mostrarImagen, false);
+    }*/
+
+    $("#subir_archivo").change(mostrarImagen);
+
+
+    //$("#navbar").attr("content", 'black');
+
+    function mostrarImagen(event) {
+        //console.log(event)
+
+        if( $("#file_error").length != 0 ){
+            $("#file_error").remove();
+        }
+
+        var file = event.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            $('#vista_previa').attr("src",event.target.result);
+        }
+        reader.readAsDataURL(file);
+    }
+
+    //window.addEventListener('load', init, false);
+    //console.log($("#vista_previa").length )
+
+    /*$("#agregar").on("click",function(){
+        $.ajax({
+            
+            url:"{% url 'agregar_foro' %}",
+            method: 'POST',
+            enctype: 'multipart/form-data',
+            data:{
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                archivo: $("#subir_archivo").val(),
+                nom_foro: $("#id_nom_foro").val(),
+                descripcion: $("#id_descripcion").val(),
+            },
+            contentType: true,
+            processData: true,
+            success: function(data){
+                console.log("tobien")
+            }
+        });
+    });*/
+
+
+
+
+
+    $("#id_nom_foro").keydown( function(){
+
+        if( $("#error").length != 0 ){
+            $("#error").remove();
+        }
+
+    });
+
+
+
+
+
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        icon: 'success',
+        title: 'Foro agregado'
+    })
+
+
+
+
+
+    $('#uploadForm').ajaxForm(function(response) {
+        switch(response.tipo){
+            case 'agregado':
+                Toast.fire({});
+                setTimeout(function(){
+                    document.location.href = response.url;
+                },1000);
+                break;
+            case 'login':
+                document.location.href = response.url
+                break;
+            case 'error':
+                switch(response.razon){
+                    case 'already_exist':
+
+
+                        if( $("#error").length == 0 ){
+                            $("#id_nom_foro").after("<label class='error' id='error'></label>")
+                        }
+                        $("#error").html('foro ya existe');
+
+                        break;
+
+                    case 'invalid_file':
+
+                        if( $("#file_error").length == 0 ){
+                            $("#vista_previa").after("<label class='error' id='file_error'></label>")
+                        }
+                        $("#file_error").html('extension de imagen invalida');
+                        break;
+
+                };
+        }
+    });
+
+
+
+    /*$("#uploadForm").submit(function(event){
+    event.preventDefault(); //prevent default action 
+    var post_url = $(this).attr("action"); //get form action url
+    var request_method = $(this).attr("method"); //get form GET/POST method
+	var form_data = new FormData(this); //Creates new FormData object
+        $.ajax({
+            url : post_url,
+            type: request_method,
+            data : form_data,
+            contentType: false,
+            cache: false,
+            processData:false
+        }).done(function(response){ //
+            console.log(response);
+        });
+    });
+    */
+
+
+
+</script>
+
+{% endblock %}

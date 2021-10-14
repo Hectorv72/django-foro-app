@@ -1,0 +1,15 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: url(../img/bg.jpeg) no-repeat center top;
+    background-size: cover;
+    font-family: sans-serif;
+    height: 100vh;
+
+}
+
+.forum {
+  width: 70%;
+  height: 90%;
+  background: #000;
+}

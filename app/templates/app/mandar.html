@@ -1,0 +1,350 @@
+{% extends Extend %}
+
+{% block titulo %}Comentario{% endblock %}
+
+{% load static %}
+
+{% include 'test.html' %}
+
+
+
+{% block estilos %}
+    
+{% endblock %}
+
+
+
+{% block contenido %}
+
+<style>
+    /*a[href $='.pdf'] {
+        padding-left: 20px;
+        background: transparent url(icon_pdf.gif) no-repeat center left;
+    }*/
+
+    .rango{
+        color: blue;
+    }
+
+    img {
+        /*user-drag: none;*/
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-drag: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+
+    .play{
+        width: 16px;
+    }
+    .play:hover
+    {
+        content:url("{% static 'svg/delete/icon-hover.svg' %}");
+    }
+
+    label{
+        white-space: pre-wrap;
+    }
+
+    .cssresp {
+        border: solid;
+        border-width: 1px;
+        border-color: blue;
+        margin-left:30px;
+    }
+
+
+    .csscom {
+        border: solid;
+        border-width: 1px;
+        border-color: black;
+
+    }
+
+    textarea{
+        max-width: 400px;
+        max-height:60px;
+    }
+
+
+</style>
+
+<script src="{% static 'lib/linkifyjs/dist/linkify.min.js' %}"></script>
+<!--<script src="{% static 'lib/linkifyjs/dist/linkify-plugin-mention.js' %} "></script>-->
+<script src="{% static 'lib/linkifyjs/dist/linkify-jquery.js' %}"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {% csrf_token %}
+    <a href="{% url 'foros' %}"><button style="font-size: 20px;">🔙</button></a><br><br>
+
+    <div>
+        <form action="{% url 'foros' %}" method="get">
+            <input type="search" name="search"><button>Buscar</button>
+        </form>
+    </div>
+
+        <!--div de la publicacion del foro-->
+        <div style="border: solid;border-width: 1px; border-color: green; ">
+
+            <label><h1>Consulta: {{ Foro.nom_foro }}</h1></label>
+
+            <img src="{{ Foro.usuario.foto_perfil.url }}" style="width: 30px; border-radius: 50px;" >
+            
+            <label><a href="{% url 'perfil' %}?profile={{ Foro.usuario.nom_usuario }}">{{ Foro.usuario.nom_usuario }}</a></label>
+            <label class="rango">{{ Foro.usuario.tipo_usuario.nom_tipo }}</label>
+
+
+            <span style="color: gray;">({{Foro.fecha}})</span><br><br>
+            
+
+            <div>
+                <label>{{ Foro.descripcion }}</label><br><br>
+            </div>
+
+            {% if Foro.archivo.url != '' %}
+            <a href="{{ Foro.archivo.url }}"><img src="{{ Foro.archivo.url }}" draggable="false" style="width: 60%;"></a><br><br>
+            {% endif %}
+
+            <!--boton para eliminar foro-->
+            {% if Foro.usuario_id == Profile.id or SuperUs == True %}
+                <button id="elim_foro" name="delforo" value="{{ Foro.id }}" >Eliminar Foro</button>
+            {% endif %}
+            
+        </div><br><br>
+
+
+
+
+
+
+
+
+
+    <!---div todos los comentarios-->
+
+    <div id="todo">
+    <div id="comentarios" >
+        <div>
+            <label><h3>Comentarios</h3> </label>
+        </div>
+
+
+        
+
+        <!--Lista los comentarios-->
+        {% for com in Comentarios %}
+        {% if com.respuesta == null %}
+
+            <div class="csscom" id="c_{{ com.id }}">
+
+                <div>
+                    <img src="{{ com.usuario.foto_perfil.url }}" style="width: 30px; border-radius: 50px;" >
+                    <label><a href="{% url 'perfil' %}?profile={{ com.usuario.nom_usuario }}">{{ com.usuario }}</a></label>
+                    <label class="rango">{{ com.usuario.tipo_usuario.nom_tipo }}</label>
+
+                    <!--Muestra la fecha de publicacion-->
+                    <span style="color: gray;">({{ com.fecha }})</span><br>
+
+                    <!--Muestra el comentario(si tiene)-->
+                    {% if com.comentario != '' %}
+                        <label class="content">{{ com.comentario }}</label><br>
+                    {% endif %}
+
+
+                    <!--Muestra la imagen(si tiene)-->
+                    {% if com.archivo.url != '' %}
+                        <img src="{{ com.archivo.url }}" width="128px"><br>
+                    {% endif %}
+
+                    
+                    <!------crea el boton para responder-->
+                    <button id="responder" value="{{ com.id }},comentario" >Responder</button>
+
+
+                    <!------crea el boton que ejecutara la accion de eliminar-->
+                    {% if com.usuario_id == Profile.id or SuperUs == True %}
+                    <button id="eliminar" value="{{ com.id }},comentario" >Eliminar</button>
+                    {% endif %}
+
+
+                    <!------crea el boton que ejecutara la accion de editar-->
+                    {% if com.usuario_id == Profile.id or SuperUs == True %}
+                    <button id="editar" value="{{ com.id }},comentario" >Editar</button>
+                    {% endif %}
+
+
+                </div>
+            </div><br>
+
+
+            <!--<div> <button id="mostrarresp" onclick="Show('{{ com.id }}')" > Mostrar Respuestas </button> </div>-->
+
+            <div id="respuestas">
+            {% for r in Respuestas %}
+
+                <!------lista las respuestas-->
+                {% if r.comentario_id == com.id %}
+                <div class="cssresp" id="r_{{ r.id }}" >
+
+                    <img src="{{ r.usuario.foto_perfil.url }}" style="width: 30px; border-radius: 50px;" >
+
+                    <label><label><a href="{% url 'perfil' %}?profile={{ r.usuario.nom_usuario }}">{{ r.usuario }}</a></label></label>
+                    <label class="rango">{{ r.usuario.tipo_usuario.nom_tipo }}</label>
+
+                    <!--Muestra la fecha de publicacion-->
+                    <span style="color: gray;">({{ r.fecha }})</span><br>
+
+
+                    <!--@Usuario al que respondio-->
+                    <label><a href="{% url 'perfil' %}?profile={{ r.usu_respuesta.nom_usuario }}">@{{ r.usu_respuesta }}</a></label>
+
+
+                    <!--Muestra el comentario(si tiene)-->
+                    {% if r.respuesta != '' %}
+                        <label>{{ r.respuesta }}</label>
+                    {% endif %}
+                    <br>
+
+
+                    <!--Muestra la imagen(si tiene)-->
+                    {% if r.archivo.url != '' %}
+                        <img src="{{ r.archivo.url }}" width="128px"><br>
+                    {% endif %}
+
+
+
+
+
+
+
+
+                    <!------crea el boton para responder-->
+                    <button id="responder" value="{{ r.id }},respuesta" >Responder</button>
+                    
+                    <!------crea el boton que ejecutara la accion de eliminar-->
+                    {% if r.usuario_id == Profile.id or SuperUs == True %}
+                    <button id="eliminar" value="{{ r.id }},respuesta" >Eliminar</button>
+                    {% endif %}
+
+                    <!------crea el boton que ejecutara la accion de editar-->
+                    {% if r.usuario_id == Profile.id or SuperUs == True %}
+                    <button id="editar" value="{{ r.id }},respuesta" >Editar</button>
+                    {% endif %}
+
+                </div><br>
+
+                {% endif %}
+
+            {% endfor %}
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+        {% endif %}
+        {% endfor %}
+
+
+
+        
+
+    </div>
+    <!---Final div todo-->
+    </div>
+
+    
+    <div class="swal2-success-circular-line-left"></div>
+      <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+      <div class="swal2-success-ring"></div> <div class="swal2-success-fix"></div>
+      <div class="swal2-success-circular-line-right"></div>
+
+
+
+    <!------input abajo para comentar-->
+    <div>
+        <form action="{% url 'agregar_comentario' %}" method="post" id="form_comentario" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            
+            <input type="hidden" value="{{ Foro.id }}" name="foro">
+            <input type="hidden" name="com" value="comentario" >
+
+            <textarea id="comentar" name="comentario" cols="30" rows="1" placeholder="Escribe un comentario..."></textarea>
+
+            <img id="vista_previa" src="" width="64px">
+            
+            <input type="file" name="archivo_foto" hidden id="archivo_foto" accept="image/png, image/gif, image/jpeg">
+
+            <label for="archivo_foto">
+                <img src="{% static 'svg/publicacion/camara.svg' %}" width="32px">
+            </label>
+
+            
+
+
+            <button id="botonComentar">Comentar</button>
+
+        </form>
+    </div>
+
+
+
+
+
+
+
+    <script src="{% static 'js/foro.js' %}"></script>
+
+    {% if Foro.usuario_id == Profile.id or SuperUs == True %}
+        <script src="{% static 'js/elim_foro.js' %}"></script>
+    {% endif %}
+
+    <script>
+
+    $(document).ready(function(){
+        //Pasar('{{ DatosCom.ultimo }}','{{ DatosCom.cantidad }}','{{ DatosRes.ultimo }}','{{ DatosRes.cantidad }}');
+        Iniciar("{% url 'publicacion' Foro.nom_foro %}" ,"{{ Foro.id }}");
+    });
+
+    //--------------------------otro archivo js----------------------------
+
+
+    //console.log("{% url 'publicacion' Foro.nom_foro %}")
+    //console.log(window.location.pathname)
+    //console.log(window.location)
+
+
+
+
+
+
+ 
+</script>
+
+
+{% endblock %}

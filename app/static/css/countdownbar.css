@@ -1,0 +1,46 @@
+#progressBar {
+    width: 100%;
+    margin: 10px auto;
+    height: 15px;
+    background-color: black;
+}
+
+#progressBar .green {
+    height: 100%;
+    text-align: right;
+    padding: 0;
+    line-height: 22px; /* same as #progressBar height if we want text middle aligned */
+    width: 0;
+    background-color: green;
+    box-sizing: border-box;
+}
+
+#progressBar .yellowgreen {
+    height: 100%;
+    text-align: right;
+    padding: 0;
+    line-height: 22px; /* same as #progressBar height if we want text middle aligned */
+    width: 0;
+    background-color: yellowgreen;
+    box-sizing: border-box;
+}
+
+#progressBar .yellow {
+    height: 100%;
+    text-align: right;
+    padding: 0;
+    line-height: 22px; /* same as #progressBar height if we want text middle aligned */
+    width: 0;
+    background-color: yellow;
+    box-sizing: border-box;
+}
+
+#progressBar .red {
+    height: 100%;
+    text-align: right;
+    padding: 0;
+    line-height: 22px; /* same as #progressBar height if we want text middle aligned */
+    width: 0;
+    background-color: red;
+    box-sizing: border-box;
+}

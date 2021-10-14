@@ -1,0 +1,31 @@
+{% extends 'app/home.html' %}
+{% load static %}
+
+{% block contenido %}
+    <form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label> Foto de perfil: </label>{{ loginForm.foto_perfil }}<br>
+        <label> Usuario: </label>{{ loginForm.nom_usuario }}<br>
+        <label> Contraseña: </label><input type="password" id="id_password" name="password"><br>
+        <label> Contraseña: </label><input type="password" id="validar" onKeyUp="verificar()""><label id="comentario"><h3></h3></label><br>
+        <button>Registrarse</button>
+        <label><h2>{{ Texto }}</h2></label>
+    </form>
+        {% if Texto != '' %}
+            <a href="{% url 'login' %}"><button>Ir al login</button></a>
+        {% endif %}
+
+        <script>
+            function verificar(){
+                var text = document.getElementById("validar").value;
+                var pass = document.getElementById("id_password").value;
+
+                if (text != pass){
+                    document.getElementById("comentario").innerHTML = 'non'
+                }else{
+                    document.getElementById("comentario").innerHTML = 'perfecto'
+                }
+
+            }
+        </script>
+{% endblock %}

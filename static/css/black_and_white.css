@@ -1,0 +1,47 @@
+
+body.day{
+    background-color: white;
+}
+
+.day label{
+    color: black;
+}
+
+.day button{
+    background-color: black;
+    border-color: rgb(109, 109, 109);
+    color: white;
+}
+
+
+body.night{
+    background-color: black;
+}
+
+
+.night label {
+    color: white;
+    
+}
+
+.night button {
+    background-color: white;
+    color: black;
+    
+}
+
+body.black label,button{
+    transition: 1000ms ease;
+}
+
+body.black{
+    transition: 1000ms ease;
+}
+
+body.white label,button{
+    transition: 1000ms ease;
+}
+
+body.white{
+    transition: 1000ms ease;
+}

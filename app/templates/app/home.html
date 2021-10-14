@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta id="navbar" name="theme-color" content="white" />
+    <link id="link-estilo" rel="stylesheet" href="{% static 'css/black_and_white.css' %}">
+    <link rel="stylesheet" href="{% static 'css/IOswitch.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/epet7.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'lib/sweetalert2/dist/sweetalert2.min.css' %}"">
+    {% block estilos %}
+    {% endblock %}
+    <title>{% block titulo %}Template{% endblock %}</title>
+
+    <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery.form.js' %}"></script> 
+    <script src="{% static 'lib/sweetalert2/dist/sweetalert2.min.js' %}"></script>
+    
+</head>
+<body id="divisor" class="">
+
+    <div id="logo">
+        <img style="width: 50px;" src="{% static 'img/epet7.png' %}">
+        <!--<img style="width: 150px; vertical-align: 10px" src="{% static 'img/texto_epet.png' %}">-->
+        <label class="logo">EPET N°7</label>
+    </div>
+
+    <div style="border: solid black; height: 40px;">
+            <div style="float: left;">
+                <label class="label-switch change"> MODO: </label>
+                <input id="black_and_night" class="apple-switch switch-position switch-icon change" type="checkbox">
+                
+                <audio id='interruptor' hidden>
+                    <source src="{% static 'sound/efecto-interruptor.mp3' %}" type="audio/mp3">
+                </audio>
+            </div>
+
+        {% block header %}{% endblock %}
+    </div><br><br>
+    
+
+    {% block contenido %}
+    {% endblock %}
+
+    <script src="{% static 'js/black_and_white.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{% extends Extend %}
+
+{% load static %}
+
+
+{% block contenido %}
+    <!--div de la publicacion del foro-->
+    <div style="border: solid;border-width: 1px; border-color: green; ">
+
+        <label><h1>Consulta: {{ Foro.nom_foro }}</h1></label>
+
+        <img src="{{ Foro.usuario.foto_perfil.url }}" style="width: 30px; border-radius: 50px;" >
+        
+        <label><a href="{% url 'perfil' %}?profile={{ Foro.usuario.nom_usuario }}">{{ Foro.usuario.nom_usuario }}</a></label>
+        <label class="rango">{{ Foro.usuario.tipo_usuario.nom_tipo }}</label>
+
+
+        <span style="color: gray;">({{Foro.fecha}})</span><br><br>
+        
+        <div>
+            <label>{{ Foro.descripcion }}</label><br><br>
+        </div>
+
+        {% if Foro.archivo.url != '' %}
+        <a href="{{ Foro.archivo.url }}"><img src="{{ Foro.archivo.url }}" draggable="false" style="width: 60%;"></a><br><br>
+        {% endif %}
+
+        <!--boton para eliminar foro-->
+        {% if Foro.usuario_id == Usuario or SuperUs == True %}
+        <form action="{% url 'eliminar' %}#comentario" method="POST">
+                {% csrf_token %}
+                <button id="id_{{ com.id }}" name="delforo" value="{{ Foro.id }}" >Eliminar Foro</button>
+        </form>
+        {% endif %}
+        
+    </div><br><br>
+{% endblock %}

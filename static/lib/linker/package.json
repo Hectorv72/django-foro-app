@@ -1,0 +1,53 @@
+{
+  "_from": "js-linker",
+  "_id": "js-linker@0.0.3",
+  "_inBundle": false,
+  "_integrity": "sha1-SjmpMb0sYOirjPxnlVF98NNuUNc=",
+  "_location": "/js-linker",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "js-linker",
+    "name": "js-linker",
+    "escapedName": "js-linker",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/js-linker/-/js-linker-0.0.3.tgz",
+  "_shasum": "4a39a931bd2c60e8ab8cfc6795517df0d36e50d7",
+  "_spec": "js-linker",
+  "_where": "D:\\ambiente\\ProyectosDjango\\Comentarios\\static",
+  "author": {
+    "name": "Tim Caswell",
+    "email": "tim@creationix.com"
+  },
+  "bugs": {
+    "url": "https://github.com/creationix/js-linker/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "A library that searches for require calls in js code and links them together into a single script.",
+  "homepage": "https://github.com/creationix/js-linker#readme",
+  "keywords": [
+    "js-compile",
+    "bundle",
+    "browser"
+  ],
+  "license": "MIT",
+  "main": "compile.js",
+  "name": "js-linker",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/creationix/js-linker.git"
+  },
+  "scripts": {
+    "test": "node test.js | node | node"
+  },
+  "version": "0.0.3"
+}

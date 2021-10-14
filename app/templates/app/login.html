@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>INICIO DE SESION
+    </title>
+    {% block style %}
+      <link rel="stylesheet" href="{% static 'css/styless.css' %}">
+    {% endblock style %}
+
+</head>
+<body>
+
+    <div class="login-box">
+
+        <img class="logoin" src="{% static 'img/logo_colegio.png' %}" alt="logo">
+    
+          <h1>Sesion Admin</h1>
+      
+        <form action="{% url 'login' %}" method="post">
+        
+        {% csrf_token %}
+            <!-- user name -->
+            <label for="username">Nombre de Usuario</label>
+            {{ loginForm.nom_usuario }}
+
+            <!-- password -->
+            <label for="password">Contraseña</label>
+            {{ loginForm.password }}
+
+            <input type="submit" value="Iniciar">
+          
+      
+            <a href="{% url 'register' %}">registrarse</a><br>
+            <a href="{% url 'foros' %}">foros</a>
+            
+        </form>
+
+    </div>
+
+</body>
+</html>
